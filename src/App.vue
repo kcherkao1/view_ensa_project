@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import Header from '@/components/Header'
 
 import 'swiper/css';
@@ -19,7 +20,7 @@ Swiper.use([Navigation, Pagination, Scrollbar]);
 export default {
   name: 'App',
   components: {
-    Header
+    Header,
   },
   data() {
     return {
@@ -27,13 +28,18 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      'initializeStore'
+    ]),
     onSearchBooks(value) {
       this.searchValue = value;
     }
-  }
+  },
+  created() {
+    this.initializeStore();
+  },
 }
 </script>
-
 <style>
   /* Your styles */
 </style>

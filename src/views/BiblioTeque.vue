@@ -1,6 +1,6 @@
 <template>
   <div class="container my-5">
-    <h1 class="text-center">Bibliothèque</h1>
+    <h1 class="text-center bib">Bibliothèque</h1>
     <div class="row mt-5">
       <div class="col-lg-3 col-md-4 col-sm-6 mb-4" v-for="book in filteredBooks" :key="book.id">
         <router-link to="/Login" class="nav-link">
@@ -9,7 +9,8 @@
           <div class="card-body">
             <h5 class="card-title">{{ book.title }}</h5>
             <p class="card-text">{{ book.author }}</p>
-            <!-- <router-link :to="{ name: 'BookDetails', params: { id: book.id } }" class="btn btn-primary">Details</router-link> -->
+            <router-link :to="{ name: 'Recommendations', params: { author: book.author, id: book.id  } }" class="btn btn-primary">See More Recommendations</router-link>
+
           </div>
         </div>
       </router-link>
@@ -114,4 +115,12 @@ export default {
 .card-text {
   color: #6c757d;
 }
+.bib{
+  padding: 40px 0;
+  color: #444444; /* Change the text color to dark gray */
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.7); /* Add a semi-transparent white background color */
+  border-radius: 10px; /* Add rounded corners to the container */
+}
+
 </style>
