@@ -89,14 +89,21 @@ const baseBooks = [
   // Additional similar books...
 ];
 
-const books = baseBooks.concat(Array.from({ length: 1000 }, generateRandomBook));
+const books = baseBooks.concat(Array.from({ length: 10000 }, generateRandomBook));
 
 const store = createStore({
   state: {
-    books: books
+    id: null,
+    books: books,
+    username: null,
+    email: '',
+    profilePicture: '',
+    isLoggedIn: false, // change this based on your actual state
   },
   getters: {
-    getBooks: state => state.books
+    getBooks: state => state.books,
+    isAuthenticated: state => state.isLoggedIn,
+    id: state => state.id,
   },
   actions: {
     initializeStore({ commit }) {
@@ -107,7 +114,23 @@ const store = createStore({
     INITIALIZE_STORE(state, books) {
       state.books = books;
     },
+    setUsername(state, username) {
+      state.username = username;
+    },
+    setEmail(state, email) {  // add this function
+      state.email = email;
+    },
+    setProfilePicture(state, profilePicture) {
+      state.profilePicture = profilePicture;
+    },
+    setLoggedInState(state, isLoggedIn) {
+      state.isLoggedIn = isLoggedIn;
+    },
+    SET_ID(state, id) {
+      state.id = id;
+    },
   },
+  
 })
 
 export default store

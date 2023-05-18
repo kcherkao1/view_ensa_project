@@ -30,12 +30,12 @@
               >
                 <form @submit.prevent="submitForm">
                   <div class="mb-3">
-                    <label for="loginEmail" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="loginEmail" v-model="form.email" />
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" v-model="form.email" />
                   </div>
                   <div class="mb-3">
-                    <label for="loginPassword" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="loginPassword" v-model="form.password" />
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" v-model="form.password" />
                   </div>
                   <button type="submit" class="btn btn-primary">Login</button>
                   <span class="ml-2">Not registered yet? <router-link to="/register">Register now</router-link></span>
@@ -66,13 +66,16 @@ export default {
     async submitForm() {
       try {
         const response = await axios.post('/api/login.php', this.form);
-
+        console.log(response.data);
         if (response.data.success) {
-          // Handle successful login
-          console.log(response.data.message);
+    // Handle successful login
+    this.$store.commit('setUsername', response.data.username);
+    this.$router.push('/dashboard');
+    this.$store.commit('setLoggedInState', true);
+    this.$store.commit('SET_ID', response.data.id);
+    this.$store.commit('setEmail', response.data.user.email);
 
-          // Redirect to a protected page (e.g., a dashboard)
-          this.$router.push('/dashboard');
+
         } else {
           // Handle unsuccessful login
           console.log(response.data.message);

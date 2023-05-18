@@ -1,37 +1,45 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">IID 2</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <router-link to="/" class="nav-link">Home</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/about" class="nav-link">About</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/services" class="nav-link">Services</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/contact" class="nav-link">Contact</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/biblioteque" class="nav-link">Biblioteque</router-link>
-            </li>
-          </ul>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">IID 2</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link to="/" class="nav-link">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/about" class="nav-link">About</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/services" class="nav-link">Services</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/contact" class="nav-link">Contact</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/biblioteque" class="nav-link">Biblioteque</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+          </li>
+          <li class="nav-item" v-if="isLoggedIn">
+            <router-link to="/profile" class="nav-link">Your Profile</router-link>
+          </li>
+        </ul>
+        <div v-if="isLoggedIn" class="d-flex">
+          <button class="btn btn-outline-danger me-2" @click="logout">Logout</button>
           <form class="d-flex" :class="{ 'd-none': !showSearchBar }" @submit.prevent="searchBooks">
             <input
               class="form-control me-2"
@@ -44,8 +52,10 @@
           </form>
         </div>
       </div>
-    </nav>
-  </header>
+    </div>
+  </nav>
+</header>
+
 </template>
 
 <script>
@@ -59,13 +69,25 @@ export default {
   methods: {
     searchBooks() {
       this.$emit('search-books', this.searchValue);
-    }
+    },
+    logout() {
+  this.$store.commit('setUsername', null);
+  this.$store.commit('setLoggedInState', false);
+  this.$router.push('/login');
+},
+
+
   },
   computed: {
     showSearchBar() {
       return this.$route.path === '/biblioteque';
     },
-  }
+    isLoggedIn() {
+      // This will be true if username is not null
+      return !!this.$store.state.username;
+    }
+  },
+  
 }
 </script>
 

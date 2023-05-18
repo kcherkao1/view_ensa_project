@@ -11,8 +11,8 @@
                   "Data engineers turn raw data into useful insights."
                 </h2>
                 <div class="d-flex justify-content-center mb-4">
-    <button class="btn btn-primary me-3" @click="register">Register</button>
-    <button class="btn btn-secondary" @click="login">Login</button>
+    <button class="btn btn-primary me-3" @click="register" v-if="!isLoggedIn">Register</button>
+    <button class="btn btn-secondary" @click="login" v-if="!isLoggedIn">Login</button>
   </div>
                 <div class="d-flex justify-content-center">
                   <a href="#" class="social-icon me-3">
@@ -44,10 +44,15 @@
 import { useRouter } from 'vue-router'
 import Typed from 'typed.js'
 import Swiper from 'swiper'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   setup() {
     const router = useRouter()
+    const store = useStore()
+    
+    const isLoggedIn = computed(() => !!store.state.username)
 
     const register = () => {
       router.push({ name: 'Register' })
@@ -57,7 +62,7 @@ export default {
       router.push({ name: 'Login' })
     }
 
-    return { register, login }
+    return { register, login, isLoggedIn }
   },
 
   mounted() {
