@@ -39,6 +39,8 @@
                   </div>
                   <button type="submit" class="btn btn-primary">Login</button>
                   <span class="ml-2">Not registered yet? <router-link to="/register">Register now</router-link></span>
+                  <!-- Display error message if it exists -->
+    <div v-if="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
                 </form>
               </div>
             </div>
@@ -59,7 +61,9 @@ export default {
       form: {
         email: '',
         password: ''
-      }
+      },
+      errorMessage: '', // Add a new error message variable
+      profilePicture: '' // Add the profilePicture property
     };
   },
   methods: {
@@ -73,7 +77,9 @@ export default {
     this.$router.push('/dashboard');
     this.$store.commit('setLoggedInState', true);
     this.$store.commit('SET_ID', response.data.id);
-    this.$store.commit('setEmail', response.data.user.email);
+    this.$store.commit('setEmail', response.data.email);
+    this.profilePicture = response.data.profilePicture; // Assign the profilePicture value
+    
 
 
         } else {
@@ -81,12 +87,12 @@ export default {
           console.log(response.data.message);
           console.log(response.data.debug); // Log the detailed error message
           // Show an error message to the user
-          alert(response.data.message);
+          this.errorMessage = response.data.message;
         }
       } catch (error) {
         // Handle errors
         console.log('Error occurred while logging in:', error);
-        alert('An error occurred while logging in. Please try again later.');
+        this.errorMessage = 'An error occurred while logging in. Please try again later.';
       }
     }
   }

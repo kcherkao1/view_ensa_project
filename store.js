@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import faker from 'faker'
+import axios from 'axios';
 // import stringSimilarity from 'string-similarity'
 
 function generateRandomBook() {
@@ -97,18 +98,32 @@ const store = createStore({
     books: books,
     username: null,
     email: '',
-    profilePicture: '',
+    profilePictureID: '',
     isLoggedIn: false, // change this based on your actual state
   },
   getters: {
     getBooks: state => state.books,
     isAuthenticated: state => state.isLoggedIn,
     id: state => state.id,
+    profilePictureID: state => state.profilePictureID,
   },
   actions: {
     initializeStore({ commit }) {
       commit('INITIALIZE_STORE', books);
     },
+    fetchProfilePicture({ commit }, userId) {
+      axios.get(`/api/fetchUser.php?id=${userId}`)
+        .then(response => {
+          const user = response.data.user;
+
+          // Commit the profilePicture mutation to update the store
+          commit('setProfilePicture', user.profilePicture);
+        })
+        .catch(error => {
+          console.error('Error fetching profile picture:', error);
+        });
+    },
+    
   },
   mutations: {
     INITIALIZE_STORE(state, books) {
@@ -121,14 +136,17 @@ const store = createStore({
       state.email = email;
     },
     setProfilePicture(state, profilePicture) {
-      state.profilePicture = profilePicture;
+    
+      state.profilePictureID = profilePicture;
     },
+
     setLoggedInState(state, isLoggedIn) {
       state.isLoggedIn = isLoggedIn;
     },
     SET_ID(state, id) {
       state.id = id;
     },
+    
   },
   
 })

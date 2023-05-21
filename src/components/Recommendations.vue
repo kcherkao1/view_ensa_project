@@ -81,7 +81,7 @@ export default {
           const titleSimilarity = stringSimilarity.compareTwoStrings(this.bookToCompare.title, book.title);
           const authorSimilarity = stringSimilarity.compareTwoStrings(this.bookToCompare.author, book.author);
           // Adjust the similarity thresholds as needed
-          const similarityThreshold = 0.44;
+          const similarityThreshold = 0.41;
           return (
             (titleSimilarity > similarityThreshold || authorSimilarity > similarityThreshold) &&
             book.id !== this.bookToCompare.id

@@ -37,8 +37,10 @@
           <li class="nav-item" v-if="isLoggedIn">
             <router-link to="/profile" class="nav-link">Your Profile</router-link>
           </li>
+          <!-- {{ profilePictureID }} -->
         </ul>
-        <div v-if="isLoggedIn" class="d-flex">
+        <div v-if="isLoggedIn" class="d-flex ">
+          <img :src="profilePictureUrl" alt="Profile Picture" class="navbar-profile-picture" />
           <button class="btn btn-outline-danger me-2" @click="logout">Logout</button>
           <form class="d-flex" :class="{ 'd-none': !showSearchBar }" @submit.prevent="searchBooks">
             <input
@@ -64,6 +66,7 @@ export default {
   data() {
     return {
       searchValue: '',
+      // profilePicture: ''
     }
   },
   methods: {
@@ -84,9 +87,24 @@ export default {
     },
     isLoggedIn() {
       // This will be true if username is not null
-      return !!this.$store.state.username;
-    }
+      return !!this.$store.state.username ;
+
+    },
+    profilePictureID() {
+      return this.$store.getters.profilePictureID;
+    },
+    profilePictureUrl() {
+      if (this.$store.state.profilePictureID) {
+        return `http://localhost/api/${this.profilePictureID}`;
+      } else {
+        return 'http://localhost/api/uploads/klb.jpg';
+      }
+    },
   },
+//   created() {
+//   this.profilePicture = this.$store.state.profilePicture;
+// },
+
   
 }
 </script>
@@ -142,5 +160,19 @@ nav .form-control {
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
   color: #007bff;
+}
+
+/* .profile-picture {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+} */
+.navbar-profile-picture {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 5px;
 }
 </style>
