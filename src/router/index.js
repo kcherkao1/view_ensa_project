@@ -12,6 +12,8 @@ import Register from '../components/Register.vue'
 import Login from '../components/Login.vue'
 import Contact from '../components/ContactForm.vue'
 import Recommendations from '@/components/Recommendations.vue';
+import Chatbot from '@/components/chatbot.vue'
+
 
 
 const routes = [
@@ -51,6 +53,11 @@ const routes = [
     component: Dashboard
   },
   {
+    path: '/chatbot',
+    name: 'Chatbot',
+    component: Chatbot,
+  },
+  {
     path: '/recommendations/:author/:id/',
     name: 'Recommendations',
     component: Recommendations,
@@ -78,14 +85,15 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register', '/'];
+  const publicPages = ['/login', '/register', '/', '/About', '/Contact', '/chatbot', '/Biblioteque'];
   const authRequired = !publicPages.includes(to.path)
-  const loggedIn = store.state.username
+  const loggedIn = store.getters.isAuthenticated
 
   if (authRequired && !loggedIn) {
     return next('/login')
   }
   next()
 });
+
 
 export default router

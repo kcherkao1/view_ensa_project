@@ -2,12 +2,14 @@
   <div id="app">
     <Header @search-books="onSearchBooks" />
     <router-view :search="searchValue" />
+    <chatbot></chatbot>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 import Header from '@/components/Header'
+import chatbot from '@/components/chatbot'
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -22,6 +24,7 @@ export default {
   name: 'App',
   components: {
     Header,
+    chatbot,
   },
   data() {
     return {

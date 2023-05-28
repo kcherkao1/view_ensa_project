@@ -47,6 +47,7 @@ import Swiper from 'swiper'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
+
 export default {
   setup() {
     const router = useRouter()
